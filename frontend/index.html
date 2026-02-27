@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Real Estate Marketing AI Agent — premium data-driven property marketing copy">
+    <title>Real Estate Marketing AI Agent</title>
+    <!-- Custom Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Page Header -->
+        <header class="header">
+            <div class="header-top">
+                <h1>Real Estate Marketing AI Agent</h1>
+                <div class="header-actions">
+                    <button id="howitworks-toggle" class="settings-btn" title="How It Works">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <circle cx="10" cy="10" r="8.5" stroke="currentColor" stroke-width="1.5" />
+                            <path d="M7.5 7.5a2.5 2.5 0 014.6 1.3c0 1.7-2.6 1.7-2.6 3.2" stroke="currentColor"
+                                stroke-width="1.5" stroke-linecap="round" />
+                            <circle cx="10" cy="14.5" r="0.75" fill="currentColor" />
+                        </svg>
+                    </button>
+                    <button id="settings-toggle" class="settings-btn" title="Settings">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" stroke="currentColor"
+                                stroke-width="1.5" />
+                            <path
+                                d="M16.18 12.32a1.25 1.25 0 00.25 1.38l.04.05a1.52 1.52 0 11-2.15 2.14l-.04-.04a1.25 1.25 0 00-1.38-.25 1.25 1.25 0 00-.76 1.15v.11a1.52 1.52 0 01-3.03 0v-.06a1.25 1.25 0 00-.82-1.14 1.25 1.25 0 00-1.38.25l-.04.04a1.52 1.52 0 11-2.15-2.14l.05-.05a1.25 1.25 0 00.25-1.38 1.25 1.25 0 00-1.15-.76h-.11a1.52 1.52 0 010-3.03h.06a1.25 1.25 0 001.14-.82 1.25 1.25 0 00-.25-1.38l-.05-.04a1.52 1.52 0 112.15-2.15l.04.05a1.25 1.25 0 001.38.25h.06a1.25 1.25 0 00.76-1.15v-.11a1.52 1.52 0 013.03 0v.06a1.25 1.25 0 00.76 1.14 1.25 1.25 0 001.38-.25l.04-.04a1.52 1.52 0 112.15 2.14l-.05.05a1.25 1.25 0 00-.25 1.38v.06a1.25 1.25 0 001.15.76h.11a1.52 1.52 0 010 3.03h-.06a1.25 1.25 0 00-1.14.76z"
+                                stroke="currentColor" stroke-width="1.5" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <p class="subtitle">Every buyer cares about different things. Share the property address and the type of
+                buyer you have in mind, and we'll find nearby places that make sense for them!</p>
+        </header>
+
+        <!-- Settings Panel (hidden by default) -->
+        <section id="settings-panel" class="settings-panel hidden">
+            <div class="card settings-card">
+                <div class="settings-header">
+                    <h2>Settings & Usage</h2>
+                    <button id="settings-close" class="settings-close-btn">&times;</button>
+                </div>
+                <div class="settings-body">
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="stat-total-api">0</div>
+                            <div class="stat-label">Total API Calls</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="stat-gemini">0</div>
+                            <div class="stat-label">Gemini (AI) Calls</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="stat-maps">0</div>
+                            <div class="stat-label">Google Maps Calls</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="stat-searches">0</div>
+                            <div class="stat-label">Searches Done</div>
+                        </div>
+                    </div>
+                    <p class="settings-note">Counts reset when you refresh the page.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Panel (hidden by default) -->
+        <section id="howitworks-panel" class="settings-panel hidden">
+            <div class="card howitworks-card">
+                <div class="settings-header">
+                    <h2>How It Works</h2>
+                    <button id="howitworks-close" class="settings-close-btn">&times;</button>
+                </div>
+                <p class="howitworks-intro">Our AI agents work together behind the scenes to find the most relevant
+                    places for your buyer. Here's the flow:</p>
+                <div class="flow-container">
+                    <div class="flow-step">
+                        <div class="flow-node flow-node-start">
+                            <div class="flow-number">1</div>
+                            <div class="flow-content">
+                                <div class="flow-title">You Describe the Buyer</div>
+                                <div class="flow-desc">Tell us what kind of person is looking at this property.</div>
+                            </div>
+                        </div>
+                        <div class="flow-arrow"></div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-node flow-node-planner">
+                            <div class="flow-number">2</div>
+                            <div class="flow-content">
+                                <div class="flow-title">AI Planner</div>
+                                <div class="flow-desc">Reads the buyer profile and picks the most relevant categories to
+                                    search for (e.g. parks, cafes, schools).</div>
+                            </div>
+                        </div>
+                        <div class="flow-arrow"></div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-node flow-node-search">
+                            <div class="flow-number">3</div>
+                            <div class="flow-content">
+                                <div class="flow-title">Place Search</div>
+                                <div class="flow-desc">Uses Google Maps to find real nearby places with ratings,
+                                    distance, and names.</div>
+                            </div>
+                        </div>
+                        <div class="flow-arrow"></div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-node flow-node-critic">
+                            <div class="flow-number">4</div>
+                            <div class="flow-content">
+                                <div class="flow-title">Quality Check</div>
+                                <div class="flow-desc">Another AI reviews the results. If something's missing, it loops
+                                    back to step 2 for a better search.</div>
+                            </div>
+                        </div>
+                        <div class="flow-arrow flow-arrow-loop">
+                            <span class="flow-loop-label">Needs more? Loop back</span>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-node flow-node-done">
+                            <div class="flow-number">5</div>
+                            <div class="flow-content">
+                                <div class="flow-title">Results Ready</div>
+                                <div class="flow-desc">All nearby places are displayed. You can then generate marketing
+                                    copy from them!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Form -->
+        <section class="search-section">
+            <div class="card search-card">
+                <form id="address-form">
+                    <label for="address-input">Property Address</label>
+                    <div class="input-group">
+                        <input type="text" id="address-input" placeholder="e.g. 1 Raffles Place, Singapore" required>
+                    </div>
+
+                    <label for="profile-input" style="margin-top: 1.25rem; display: block;">Tell us about the buyer
+                        (Optional)</label>
+                    <textarea id="profile-input"
+                        placeholder="e.g. Young family with a toddler and a golden retriever. We love checking out new cafes and staying active at the gym."
+                        rows="3"></textarea>
+
+                    <button type="submit" id="submit-btn" class="primary-btn" style="width: 100%;">Find Buyer-Relevant
+                        Places</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Agent Activity Panel (shows live during search) -->
+        <section id="agent-activity" class="agent-activity hidden">
+            <div class="card agent-card">
+                <div class="agent-header">
+                    <h2>
+                        Agent Activity
+                    </h2>
+                    <button id="agent-toggle" class="agent-toggle-btn" title="Toggle details">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <path
+                                d="M4.646 5.646a.5.5 0 01.708 0L8 8.293l2.646-2.647a.5.5 0 01.708.708l-3 3a.5.5 0 01-.708 0l-3-3a.5.5 0 010-.708z" />
+                        </svg>
+                    </button>
+                </div>
+                <div id="agent-steps" class="agent-steps">
+                    <!-- Steps get appended here dynamically -->
+                </div>
+                <div class="agent-footer" id="agent-footer">
+                    <span class="agent-api-badge" id="agent-api-count">0 API calls</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loading Spinner -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p id="loading-text">Looking for the right places…</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="error-message" class="error-message hidden"></div>
+
+        <!-- Results Section (hidden until data arrives) -->
+        <section id="results" class="results hidden">
+
+            <!-- Coordinates Card -->
+            <div class="card" id="coordinates-card">
+                <h2>Property Location</h2>
+                <div id="coordinates-content"></div>
+            </div>
+
+            <!-- Buyer Profile Card -->
+            <div class="card hidden" id="buyer-profile-card">
+                <h2>Detected Buyer Persona</h2>
+                <div id="buyer-profile-content"></div>
+            </div>
+
+            <!-- Amenities Card -->
+            <div class="card" id="amenities-card">
+                <h2>Nearby Amenities</h2>
+                <p class="card-note">Closest places within 1.5 km</p>
+                <p class="card-note">Select the amenities you want to include in your marketing copy.</p>
+                <div id="amenities-content"></div>
+                <div class="generate-copy-wrapper hidden" id="generate-copy-wrapper"
+                    style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                    <button type="button" id="generate-copy-btn" class="primary-btn">Generate Marketing Copy</button>
+                    <div id="generate-spinner" class="spinner hidden"
+                        style="width: 28px; height: 28px; border-width: 3px; margin: 0; display: none;"></div>
+                </div>
+            </div>
+
+            <!-- Marketing Copy Card -->
+            <div class="card highlight-card" id="copy-card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 style="margin: 0;">Marketing Copy</h2>
+                    <button id="copy-text-btn" class="settings-btn" title="Copy to Clipboard"
+                        style="cursor: pointer; background: transparent; border: none; padding: 4px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <p id="copy-content"></p>
+            </div>
+
+        </section>
+
+        <footer class="footer">
+            <p>Developed by Lim Yuxuan Chloe</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
