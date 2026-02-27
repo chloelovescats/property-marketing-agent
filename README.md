@@ -1,179 +1,150 @@
-# 🏠 Real Estate Marketing AI Agent (v2)
+# Real Estate Marketing AI Agent
 
-A tool that takes a **property address** and automatically writes **professional marketing copy** for it — using real nearby amenity data from Google Maps and AI writing from Gemini.
-
----
-
-## ✨ New in v2: The AI Agent & Premium UI
-
--   **LangGraph Agent**: Uses a Planner → Search → Critic loop to ensure amenities are relevant to your specific buyer.
--   **Live Streaming (SSE)**: Watch the agent "think" and search in real-time with a live activity log.
--   **Premium Redesign**: A clean, professional **Roboto-based** interface with floating cards and deep elevation.
--   **"How It Works" Visual**: Built-in 5-step flowchart explaining the agentic pipeline.
--   **No-Nonsense Branding**: Streamlined, emoji-free enterprise look.
+A tool that takes a property address and automatically generates professional marketing copy using real nearby amenity data from Google Maps and AI writing from Gemini.
 
 ---
 
-## 👋 Welcome, Junior Developer!
+## Overview
 
-Don't worry if you're new to this. This guide walks you through **every single step**, from getting your API keys to running the app. Just follow along in order and you'll be up and running in about 15 minutes.
-
----
-
-## What You'll Need Before Starting
-
-- A computer running **Windows**
-- **Python 3.10 or newer** installed → [Download here](https://www.python.org/downloads/)
-- A **Google account** (Gmail is fine)
-- An internet connection
-
-> ✅ **Tip:** When installing Python, make sure to tick the box that says **"Add Python to PATH"** on the first installer screen. This is easy to miss!
+- **LangGraph Agent**: Implements a Planner, Search, and Critic loop to ensure amenities are relevant to the specified buyer profile.
+- **Live Streaming (SSE)**: The agent's reasoning and search activity are streamed to the interface in real time via Server-Sent Events.
+- **Clean Interface**: A professional Roboto-based UI with floating cards and layered elevation.
+- **How It Works Panel**: A built-in five-step flowchart explaining the agentic pipeline.
 
 ---
 
-## Step 1 — Get Your Google Maps API Key (from Google Cloud)
+## Prerequisites
 
-This key lets the app search for nearby places and convert addresses into coordinates.
+- A computer running Windows
+- Python 3.10 or newer ([Download here](https://www.python.org/downloads/))
+- A Google account
+- An active internet connection
+
+> When installing Python, ensure the **"Add Python to PATH"** checkbox is selected on the first installer screen.
+
+---
+
+## Step 1: Get Your Google Maps API Key
+
+This key allows the app to search for nearby places and convert addresses into coordinates.
 
 ### 1.1 Create a Google Cloud Project
 
 1. Go to [console.cloud.google.com](https://console.cloud.google.com/)
 2. Sign in with your Google account
-3. Click the **project dropdown** at the top of the page (it might say "Select a project")
-4. Click **"New Project"**
-5. Give it any name you like (e.g. `real-estate-agent`) and click **"Create"**
-6. Wait a few seconds, then make sure your new project is selected in the dropdown
+3. Click the project dropdown at the top of the page
+4. Click **New Project**
+5. Enter a project name (e.g. `real-estate-agent`) and click **Create**
+6. Confirm your new project is selected in the dropdown before proceeding
 
-### 1.2 Enable Billing (Required by Google)
+### 1.2 Enable Billing
 
-Google requires a billing account to use their APIs, but you get a **$300 free credit** and normal usage of this app costs almost nothing.
+Google requires a linked billing account to use their APIs. New accounts receive a **$300 free credit**, and typical usage of this application costs very little.
 
-1. In the left sidebar, click **"Billing"**
-2. Click **"Link a billing account"** and follow the steps to add a payment method
-3. Once done, you're ready to enable APIs
+1. In the left sidebar, click **Billing**
+2. Click **Link a billing account** and follow the prompts to add a payment method
 
 ### 1.3 Enable the Required APIs
 
-You need to turn on **two APIs**:
-
 **Geocoding API** (converts an address into coordinates):
-1. In the left sidebar, go to **APIs & Services → Library**
-2. Search for **"Geocoding API"**
-3. Click on it, then click the blue **"Enable"** button
+1. In the sidebar, go to **APIs and Services > Library**
+2. Search for **Geocoding API**
+3. Click the result and click **Enable**
 
 **Places API** (finds nearby MRT stations, malls, schools, etc.):
-1. Go back to the Library (use the browser back button or the sidebar)
-2. Search for **"Places API"**
-3. Click on it, then click **"Enable"**
+1. Return to the Library
+2. Search for **Places API**
+3. Click the result and click **Enable**
 
-### 1.4 Create Your API Key
+### 1.4 Create an API Key
 
-1. In the left sidebar, go to **APIs & Services → Credentials**
-2. Click **"+ Create Credentials"** at the top
-3. Choose **"API key"**
-4. Google will generate a key that looks like: `AIzaSyAbc123ExampleKey...`
-5. **Copy this key and keep it safe** — you'll need it in Step 3
+1. In the sidebar, go to **APIs and Services > Credentials**
+2. Click **+ Create Credentials** and select **API key**
+3. Copy the generated key (it will look like `AIzaSyAbc123ExampleKey...`) and store it securely
 
-> ⚠️ **Important:** Never share this key publicly or upload it to GitHub. The `.gitignore` file in this project already protects your `.env` file from being accidentally shared.
+> Never share this key publicly or commit it to version control. The `.gitignore` file in this project already excludes the `.env` file from being tracked by Git.
 
 ---
 
-## Step 2 — Get Your Gemini API Key (from Google AI Studio)
+## Step 2: Get Your Gemini API Key
 
-This is a **separate key** from the one above. Gemini is the AI that writes the marketing copy.
+This is a separate key from the one above. Gemini is the AI model responsible for writing the marketing copy.
 
 1. Go to [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
 2. Sign in with your Google account if prompted
-3. Click **"Create API Key"**
-4. Select the Google Cloud project you created in Step 1 from the dropdown, then click **"Create API key in existing project"**
-5. Copy the key that appears — it also looks like `AIzaSy...`
-
-> ✅ **Tip:** You can always come back to this page later if you lose your key.
+3. Click **Create API Key**
+4. Select the Google Cloud project created in Step 1 from the dropdown
+5. Click **Create API key in existing project** and copy the key
 
 ---
 
-## Step 3 — Add Your API Keys to the `.env` File
+## Step 3: Add Your API Keys to the `.env` File
 
-The project folder already has an empty `.env` file waiting for you.
+The project includes an empty `.env` file ready to be populated.
 
-1. Open the `.env` file with any text editor (Notepad is fine — just right-click the file and choose "Open with → Notepad")
-2. Type the following into the file, replacing the placeholder text with your actual keys:
+1. Open the `.env` file in any text editor (right-click the file and select **Open with > Notepad**)
+2. Add the following lines, replacing the placeholder values with your actual keys:
 
 ```
 GOOGLE_MAPS_API_KEY=paste_your_google_maps_key_here
 GEMINI_API_KEY=paste_your_gemini_key_here
 ```
 
-**Example of what it should look like when filled in:**
-
-```
-GOOGLE_MAPS_API_KEY=AIzaSyAbc123YourRealKeyHere
-GEMINI_API_KEY=AIzaSyXyz789YourOtherRealKeyHere
-```
-
 3. Save the file (`Ctrl + S`) and close it
 
-> ⚠️ **Do NOT add quotes or spaces around the keys.** Just paste them directly after the `=` sign.
+> Do not add quotation marks or spaces around the key values. Paste them directly after the `=` sign.
 
 ---
 
-## Step 4 — Open a Terminal in the Project Folder
+## Step 4: Open a Terminal in the Project Folder
 
-1. Open **File Explorer** and navigate to this project's folder
-2. Click on the address bar at the top of the window (where the folder path is shown)
-3. Type `cmd` and press **Enter** — this opens a Command Prompt directly inside the folder
+1. Open File Explorer and navigate to the project folder
+2. Click on the address bar at the top of the window
+3. Type `cmd` and press **Enter**
 
-You should see a black window with something like:
+A Command Prompt window will open in the project directory, showing something like:
 
 ```
 C:\Users\YourName\...\singapore_real_estate>
 ```
 
-All the commands in the next steps are typed here.
-
 ---
 
-## Step 5 — Create a Virtual Environment (venv)
+## Step 5: Create a Virtual Environment
 
-A virtual environment is an isolated space for this project's Python packages. Think of it like a separate box so that packages for this project don't interfere with other Python projects on your computer.
+A virtual environment isolates this project's dependencies from other Python projects on your machine.
 
-Run this command:
+Run:
 
 ```cmd
 python -m venv venv
 ```
 
-You'll see a new folder called `venv` appear in the project directory. That's normal — it was just created.
-
-Now **activate** the virtual environment:
+Then activate it:
 
 ```cmd
 venv\Scripts\activate
 ```
 
-Your terminal prompt should now start with `(venv)` — like this:
+Your terminal prompt should now show `(venv)` as a prefix:
 
 ```
 (venv) C:\Users\YourName\...\singapore_real_estate>
 ```
 
-That `(venv)` prefix means the virtual environment is active. 
-
-> ✅ **Tip:** Every time you open a new terminal for this project in the future, you need to re-run the `venv\Scripts\activate` command. The `start.bat` file in Step 6 handles this for you automatically.
+> Each time you open a new terminal for this project, you will need to re-run the activation command. The included `start.bat` file handles this automatically.
 
 ---
 
-## Step 6 — Install the Required Packages
+## Step 6: Install Dependencies
 
-While your virtual environment is active, run:
+With the virtual environment active, run:
 
 ```cmd
 pip install -r requirements.txt
 ```
 
-This reads the `requirements.txt` file and downloads all the Python packages the app needs. It may take a minute or two. You'll see a lot of output — that's normal.
-
-When it finishes, you should see something like:
+This downloads all required packages. The process may take one to two minutes. When complete, you should see a line similar to:
 
 ```
 Successfully installed flask-... requests-... ...
@@ -181,30 +152,30 @@ Successfully installed flask-... requests-... ...
 
 ---
 
-## Step 7 — Run the App Using `start.bat`
+## Step 7: Run the Application
 
-You're ready! The easiest way to launch everything is to use the **`start.bat`** file included in this project.
+The simplest way to start the app is via the included `start.bat` file.
 
-**Option A — Double-click it:**
-- Open File Explorer, navigate to the project folder, and **double-click `start.bat`**
+**Option A — Double-click:** Navigate to the project folder in File Explorer and double-click `start.bat`.
 
-**Option B — Run it from the terminal:**
+**Option B — Run from terminal:**
 ```cmd
 start.bat
 ```
 
 ### What `start.bat` does automatically:
-1. ✅ Checks that Python is installed
-2. ✅ Checks that your `.env` file exists (and shows an error if you forgot to fill it in)
-3. ✅ Installs any missing packages from `requirements.txt`
-4. ✅ Opens your browser to the app
-5. ✅ Starts the Flask backend server
 
-> 🛑 **To stop the app:** Click on the terminal window that opened and press `Ctrl + C`.
+1. Checks that Python is installed
+2. Checks that the `.env` file exists and is populated
+3. Installs any missing packages from `requirements.txt`
+4. Opens the app in your default browser
+5. Starts the Flask development server
+
+> To stop the server, click on the terminal window and press `Ctrl + C`.
 
 ---
 
-## 📊 Architecture Diagram
+## Architecture
 
 ```mermaid
 graph TD
@@ -223,21 +194,23 @@ graph TD
 
     subgraph "External Tools"
         Search --- GMap[(Google Maps API)]
-        Plan --- Gem1[(Gemini 1.5 Flash)]
-        Critic --- Gem2[(Gemini 1.5 Flash)]
+        Plan --- Gem1[(Gemini 2.5 Flash)]
+        Critic --- Gem2[(Gemini 2.5 Flash)]
     end
 ```
 
 ---
 
-## 🧠 How the Agent Works (The Loop)
+## How the Agent Works
 
-This app doesn't just do a single search. It follows an **agentic loop** to ensure quality:
+The application runs an agentic loop rather than a single one-shot search, in order to ensure the results are genuinely relevant to the specified buyer.
 
-1.  **Planner (Gemini 1.5 Flash)**: Analyzes your buyer profile (e.g., "Young family") and picks the 3-5 most relevant categories to search for.
-2.  **Searcher (Google Maps Tools)**: Hits the real-world Google Places database to find actual names, ratings, and distances.
-3.  **Critic (Gemini 1.5 Flash)**: Reviews the results. If they don't match the buyer’s needs, it **loops back** to the Planner with instructions to try a different search strategy.
-4.  **Copy Generator**: Once the agent is satisfied, it writes the final marketing copy using the verified data.
+1. **Planner (Gemini 2.5 Flash):** Analyses the buyer profile and selects the three to five most relevant amenity categories to search for.
+2. **Searcher (Google Maps API):** Queries the Google Places database for real places with names, ratings, and distances. No LLM is involved at this stage.
+3. **Critic (Gemini 2.5 Flash):** Reviews the search results against the buyer's needs. If the results are insufficient, the loop returns to the Planner with specific feedback on what is missing and what categories have already been searched.
+4. **Copy Generator:** Once the agent is satisfied, it writes the final marketing paragraph using only the verified amenity data.
+
+Amenities accumulate across iterations rather than being replaced, so each loop cycle produces a richer dataset than the last.
 
 ---
 
@@ -245,18 +218,22 @@ This app doesn't just do a single search. It follows an **agentic loop** to ensu
 
 ```
 singapore_real_estate/
-├── app.py                 # Backend entry point (Flask + SSE)
-├── agent/                 # THE BRAIN (LangGraph)
-│   ├── graph.py           # Workflow & router
-│   ├── nodes.py           # AI logic (Planner, Searcher, Critic)
-│   └── state.py           # Agent's short-term memory
-├── services/              # Core tools (Google Maps, AI Copy)
-├── frontend/              # Web UI (Roboto Typography)
+├── app.py                 # Flask entry point and SSE routing
+├── agent/
+│   ├── graph.py           # LangGraph workflow and conditional routing
+│   ├── nodes.py           # Planner, Searcher, and Critic node logic
+│   └── state.py           # Shared agent state (TypedDict)
+├── services/
+│   ├── geocode.py         # Google Maps Geocoding API wrapper
+│   ├── amenities.py       # Google Places Nearby Search and Haversine distance
+│   ├── ranking.py         # Filtering and distance-based ranking
+│   └── copy_generator.py  # Gemini marketing copy prompt and generation
+├── frontend/
 │   ├── index.html
-│   ├── styles.css         # Premium Floating Card CSS
-│   └── script.js          # SSE Streaming Handler
-├── start.bat              # One-click Windows runner
-└── .env                   # API keys (Keep this private!)
+│   ├── styles.css
+│   └── script.js          # SSE client and DOM rendering
+├── start.bat              # One-click Windows launcher
+└── .env                   # API keys (excluded from version control)
 ```
 
 ---
@@ -265,21 +242,20 @@ singapore_real_estate/
 
 | Problem | Solution |
 |---------|----------|
-| `python` is not recognized | Python isn't installed or wasn't added to PATH. Re-install Python and tick "Add to PATH" |
-| `pip` is not recognized | Make sure your virtual environment is activated (`venv\Scripts\activate`) |
-| `[ERROR] .env file not found` | Make sure you created and saved the `.env` file with your API keys |
-| App opens but gives an API error | Double-check your keys in `.env` are correct and the APIs are enabled in Google Cloud |
-| Port 5000 already in use | Another program is using that port. Restart your computer and try again |
+| `python` is not recognised | Python is not installed or was not added to PATH. Reinstall Python and select "Add to PATH" during setup. |
+| `pip` is not recognised | Ensure the virtual environment is activated by running `venv\Scripts\activate`. |
+| `[ERROR] .env file not found` | Create the `.env` file and populate it with your API keys as described in Step 3. |
+| App opens but returns an API error | Verify that both keys in `.env` are correct and that the Geocoding and Places APIs are enabled in Google Cloud. |
+| Port 5000 is already in use | Another process is occupying the port. Restart your machine and try again. |
 
 ---
 
----
+## Developed by
 
-## Developed by:
-**Lim Yuxuan Chloe**
+Lim Yuxuan Chloe
 
 ---
 
 ## License
 
-This project is for educational and demonstration purposes.
+This project is intended for educational and demonstration purposes.
