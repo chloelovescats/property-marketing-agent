@@ -236,41 +236,6 @@ singapore_real_estate/
 └── .env                   # API keys (excluded from version control)
 ```
 ---
-config:
-  theme: neo
----
-graph TD
-    classDef startEnd fill:#1A1A1A,stroke:#333,stroke-width:2px,color:#fff,rx:20,ry:20;
-    classDef llmNode fill:#2d1b4e,stroke:#9d00ff,stroke-width:2px,color:#fff,rx:10,ry:10;
-    classDef toolNode fill:#1e3a24,stroke:#00ff55,stroke-width:2px,color:#fff,rx:10,ry:10;
-    classDef logicNode fill:#3b2d10,stroke:#ffaa00,stroke-width:2px,color:#fff;
-    Start([Start: run_agent]):::startEnd
-    
-    subgraph LangGraph["s5"]
-        direction TB
-
-        Planner["<b>Planner Node</b><br/><i>(Gemini 2.5 Flash)</i><br/><br/>Extracts Persona &<br/>Selects Amenity Categories"]:::llmNode
-        
-        Search["<b>Search Node</b><br/><i>(Tools / API)</i><br/><br/>Geocode Address &<br/>Fetch Google Places"]:::toolNode
-        
-        Critic["<b>Critic Node</b><br/><i>(Gemini 2.5 Flash)</i><br/><br/>Evaluates Amenities vs<br/>Buyer Profile"]:::llmNode
-        
-        Condition{"Is result<br/>Satisfactory?<br/>(Or Max Loops?)"}:::logicNode
-    end
-    
-    End([End: Final AgentState]):::startEnd
-    Start -->|Initial State:<br/>address, profile text| Planner
-    
-    Planner -->|Updates:<br/>buyer_profile, search_categories| Search
-    
-    Search -->|Updates:<br/>coordinates, amenities| Critic
-    
-    Critic -->|Updates:<br/>critic_feedback, is_satisfied| Condition
-    
-    Condition -->|s13| Planner
-    
-    Condition --> End
----
 
 ## Troubleshooting
 
@@ -293,4 +258,5 @@ Lim Yuxuan Chloe
 ## License
 
 This project is intended for educational and demonstration purposes.
+
 
