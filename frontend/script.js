@@ -86,9 +86,10 @@ agentToggle.addEventListener("click", function () {
 
 // --- Node display config ---
 var NODE_CONFIG = {
-    planner: { label: "Planner" },
-    search: { label: "Search" },
-    critic: { label: "Critic" },
+    planner: { label: "Planner", icon: "🧠" },
+    search: { label: "Search", icon: "🔍" },
+    critic: { label: "Critic", icon: "✅" },
+    done: { label: "Done", icon: "🎯" },
 };
 
 
